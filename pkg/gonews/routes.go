@@ -23,6 +23,8 @@ func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient
 	shortNews.GET("/:news_id", svc.NewsShortDetailed)
 	filteredNews := routesGroup.Group("/filtered_news")
 	filteredNews.GET("/:filter_value", svc.FilterNews)
+	ListNews := routesGroup.Group("/list_news_pages")
+	ListNews.GET("/news_count=:news_count/user=:user_id/page_size=:page_size/page=:page", svc.ListNews)
 }
 
 func (svc *ServiceClient) Posts(ctx *gin.Context) {
@@ -39,4 +41,8 @@ func (svc *ServiceClient) NewsShortDetailed(ctx *gin.Context) {
 
 func (svc *ServiceClient) FilterNews(ctx *gin.Context) {
 	routes.FilterNews(ctx, svc.Client)
+}
+
+func (svc *ServiceClient) ListNews(ctx *gin.Context) {
+	routes.ListNews(ctx, svc.Client)
 }

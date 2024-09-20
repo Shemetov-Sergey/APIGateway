@@ -21,7 +21,7 @@ func Posts(ctx *gin.Context, c pb.GoNewsServiceClient) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, &res)
+	ctx.JSON(http.StatusOK, &res)
 }
 
 func NewsFullDetailed(ctx *gin.Context, c pb.GoNewsServiceClient) {
@@ -36,7 +36,7 @@ func NewsFullDetailed(ctx *gin.Context, c pb.GoNewsServiceClient) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, &res)
+	ctx.JSON(http.StatusOK, &res)
 }
 
 func NewsShortDetailed(ctx *gin.Context, c pb.GoNewsServiceClient) {
@@ -51,7 +51,7 @@ func NewsShortDetailed(ctx *gin.Context, c pb.GoNewsServiceClient) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, &res)
+	ctx.JSON(http.StatusOK, &res)
 }
 
 func FilterNews(ctx *gin.Context, c pb.GoNewsServiceClient) {
@@ -66,5 +66,45 @@ func FilterNews(ctx *gin.Context, c pb.GoNewsServiceClient) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, &res)
+	ctx.JSON(http.StatusOK, &res)
+}
+
+func ListNews(ctx *gin.Context, c pb.GoNewsServiceClient) {
+	newsCount, err := strconv.ParseInt(ctx.Param("news_count"), 10, 64)
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadGateway, err)
+		return
+	}
+
+	userId, err := strconv.ParseInt(ctx.Param("user_id"), 10, 64)
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadGateway, err)
+		return
+	}
+
+	pageSize, err := strconv.ParseInt(ctx.Param("page_size"), 10, 64)
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadGateway, err)
+		return
+	}
+
+	page, err := strconv.ParseInt(ctx.Param("page"), 10, 64)
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadGateway, err)
+		return
+	}
+
+	res, err := c.ListNews(context.Background(), &pb.ListPostsRequest{
+		NewsCountGet: newsCount,
+		UserId:       userId,
+		PageSize:     int32(pageSize),
+		Page:         int32(page),
+	})
+
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadGateway, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, &res)
 }
