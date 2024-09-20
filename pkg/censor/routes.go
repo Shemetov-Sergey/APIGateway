@@ -1,8 +1,8 @@
-package comment
+package censor
 
 import (
 	"github.com/Shemetov-Sergey/APIGateway/pkg/auth"
-	"github.com/Shemetov-Sergey/APIGateway/pkg/comment/routes"
+	"github.com/Shemetov-Sergey/APIGateway/pkg/censor/routes"
 	"github.com/Shemetov-Sergey/APIGateway/pkg/config"
 	"github.com/gin-gonic/gin"
 )
@@ -16,9 +16,9 @@ func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient
 
 	routesUrls := r.Group("/comment")
 	routesUrls.Use(a.AuthRequired)
-	routesUrls.GET("/:news_id", svc.Comments)
+	routesUrls.POST("/", svc.AddComment)
 }
 
-func (svc *ServiceClient) Comments(ctx *gin.Context) {
-	routes.Comments(ctx, svc.Client)
+func (svc *ServiceClient) AddComment(ctx *gin.Context) {
+	routes.AddComment(ctx, svc.Client)
 }

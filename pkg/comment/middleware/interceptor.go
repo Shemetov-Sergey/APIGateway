@@ -41,9 +41,6 @@ func clientInterceptor(
 	// Logic after invoking the invoker
 	var responseStatus int64
 	switch reply.(type) {
-	case *pb.CreateCommentResponse:
-		replyValues := reply.(*pb.CreateCommentResponse)
-		responseStatus = replyValues.Status
 	case *pb.CommentsByNewsResponse:
 		replyValues := reply.(*pb.CommentsByNewsResponse)
 		responseStatus = replyValues.Status

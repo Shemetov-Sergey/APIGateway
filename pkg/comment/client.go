@@ -6,14 +6,11 @@ import (
 	"github.com/Shemetov-Sergey/APIGateway/pkg/comment/middleware"
 	"github.com/Shemetov-Sergey/APIGateway/pkg/comment/pb"
 	"github.com/Shemetov-Sergey/APIGateway/pkg/config"
-	"github.com/Shemetov-Sergey/APIGateway/pkg/models"
 	"google.golang.org/grpc"
 )
 
 type ServiceClient struct {
-	Client     pb.CommentServiceClient
-	inComment  chan models.CreateCommentRequestBody
-	outComment chan models.CreateCommentRequestBody
+	Client pb.CommentServiceClient
 }
 
 func InitServiceClient(c *config.Config) pb.CommentServiceClient {
