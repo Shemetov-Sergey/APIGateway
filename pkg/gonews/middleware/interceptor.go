@@ -50,6 +50,9 @@ func clientInterceptor(
 	case *pb.OnePostResponse:
 		replyValues := reply.(*pb.OnePostResponse)
 		responseStatus = replyValues.Status
+	case *pb.DetailedNewsResponse:
+		replyValues := reply.(*pb.DetailedNewsResponse)
+		responseStatus = replyValues.Status
 	}
 	log.Printf("Invoked RPC method=%s; destination=%s; requestId=%s; status=%d; Duration=%s; Error=%v",
 		method,
