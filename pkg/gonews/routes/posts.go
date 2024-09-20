@@ -2,6 +2,7 @@ package routes
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -57,8 +58,31 @@ func NewsShortDetailed(ctx *gin.Context, c pb.GoNewsServiceClient) {
 func FilterNews(ctx *gin.Context, c pb.GoNewsServiceClient) {
 	filterValue := ctx.Param("filter_value")
 
+	userId, err := strconv.ParseInt(ctx.Param("user_id"), 10, 64)
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadGateway, err)
+		return
+	}
+
+	pageSize, err := strconv.ParseInt(ctx.Param("page_size"), 10, 64)
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadGateway, err)
+		return
+	}
+
+	page, err := strconv.ParseInt(ctx.Param("page"), 10, 64)
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadGateway, err)
+		return
+	}
+
+	fmt.Printf("UserId =%d, filter = %s, page_size = %d, page = %d\n", userId, filterValue, pageSize, page)
+
 	res, err := c.FilterNews(context.Background(), &pb.FilterNewsRequest{
+		UserId:      userId,
 		FilterValue: filterValue,
+		PageSize:    int32(pageSize),
+		Page:        int32(page),
 	})
 
 	if err != nil {

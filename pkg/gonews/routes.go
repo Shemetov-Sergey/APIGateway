@@ -22,7 +22,7 @@ func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient
 	shortNews := routesGroup.Group("/news_short")
 	shortNews.GET("/:news_id", svc.NewsShortDetailed)
 	filteredNews := routesGroup.Group("/filtered_news")
-	filteredNews.GET("/:filter_value", svc.FilterNews)
+	filteredNews.GET("/filter=:filter_value/user=:user_id/page_size=:page_size/page=:page", svc.FilterNews)
 	ListNews := routesGroup.Group("/list_news_pages")
 	ListNews.GET("/news_count=:news_count/user=:user_id/page_size=:page_size/page=:page", svc.ListNews)
 }
