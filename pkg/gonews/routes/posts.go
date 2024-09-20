@@ -2,7 +2,6 @@ package routes
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -75,8 +74,6 @@ func FilterNews(ctx *gin.Context, c pb.GoNewsServiceClient) {
 		ctx.AbortWithError(http.StatusBadGateway, err)
 		return
 	}
-
-	fmt.Printf("UserId =%d, filter = %s, page_size = %d, page = %d\n", userId, filterValue, pageSize, page)
 
 	res, err := c.FilterNews(context.Background(), &pb.FilterNewsRequest{
 		UserId:      userId,

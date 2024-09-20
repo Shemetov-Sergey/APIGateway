@@ -3,6 +3,7 @@ package config
 import "github.com/spf13/viper"
 
 type Config struct {
+	GateWayAddr   string `mapstructure:"API_GATEWAY_ADDR"`
 	Port          string `mapstructure:"PORT"`
 	AuthSvcUrl    string `mapstructure:"AUTH_SVC_URL"`
 	GoNewsSvcUrl  string `mapstructure:"GONEWS_SVC_URL"`
