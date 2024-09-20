@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GoNewsServiceClient interface {
 	Posts(ctx context.Context, in *PostsRequest, opts ...grpc.CallOption) (*PostsResponse, error)
-	NewsFullDetailed(ctx context.Context, in *OneNewsRequest, opts ...grpc.CallOption) (*OnePostResponse, error)
+	NewsFullDetailed(ctx context.Context, in *OneNewsRequest, opts ...grpc.CallOption) (*DetailedNewsResponse, error)
 	NewsShortDetailed(ctx context.Context, in *OneNewsRequest, opts ...grpc.CallOption) (*OnePostResponse, error)
 	FilterNews(ctx context.Context, in *FilterNewsRequest, opts ...grpc.CallOption) (*ListPostsResponse, error)
 	ListNews(ctx context.Context, in *ListPostsRequest, opts ...grpc.CallOption) (*ListPostsResponse, error)
@@ -46,8 +46,8 @@ func (c *goNewsServiceClient) Posts(ctx context.Context, in *PostsRequest, opts 
 	return out, nil
 }
 
-func (c *goNewsServiceClient) NewsFullDetailed(ctx context.Context, in *OneNewsRequest, opts ...grpc.CallOption) (*OnePostResponse, error) {
-	out := new(OnePostResponse)
+func (c *goNewsServiceClient) NewsFullDetailed(ctx context.Context, in *OneNewsRequest, opts ...grpc.CallOption) (*DetailedNewsResponse, error) {
+	out := new(DetailedNewsResponse)
 	err := c.cc.Invoke(ctx, "/gonews.GoNewsService/NewsFullDetailed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -87,7 +87,7 @@ func (c *goNewsServiceClient) ListNews(ctx context.Context, in *ListPostsRequest
 // for forward compatibility
 type GoNewsServiceServer interface {
 	Posts(context.Context, *PostsRequest) (*PostsResponse, error)
-	NewsFullDetailed(context.Context, *OneNewsRequest) (*OnePostResponse, error)
+	NewsFullDetailed(context.Context, *OneNewsRequest) (*DetailedNewsResponse, error)
 	NewsShortDetailed(context.Context, *OneNewsRequest) (*OnePostResponse, error)
 	FilterNews(context.Context, *FilterNewsRequest) (*ListPostsResponse, error)
 	ListNews(context.Context, *ListPostsRequest) (*ListPostsResponse, error)
@@ -101,7 +101,7 @@ type UnimplementedGoNewsServiceServer struct {
 func (UnimplementedGoNewsServiceServer) Posts(context.Context, *PostsRequest) (*PostsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Posts not implemented")
 }
-func (UnimplementedGoNewsServiceServer) NewsFullDetailed(context.Context, *OneNewsRequest) (*OnePostResponse, error) {
+func (UnimplementedGoNewsServiceServer) NewsFullDetailed(context.Context, *OneNewsRequest) (*DetailedNewsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method NewsFullDetailed not implemented")
 }
 func (UnimplementedGoNewsServiceServer) NewsShortDetailed(context.Context, *OneNewsRequest) (*OnePostResponse, error) {
