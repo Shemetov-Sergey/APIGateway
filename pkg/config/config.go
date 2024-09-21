@@ -11,6 +11,7 @@ type Config struct {
 	GoNewsSvcUrl   string `mapstructure:"GONEWS_SVC_URL"`
 	CommentSvcUrl  string `mapstructure:"COMMENT_SVC_URL"`
 	CensoredSvcUrl string `mapstructure:"CENSOR_SVC_URL"`
+	FrontendSvcUrl string `mapstructure:"FRONTEND_URL"`
 }
 
 func LoadConfig() (Config, error) {
