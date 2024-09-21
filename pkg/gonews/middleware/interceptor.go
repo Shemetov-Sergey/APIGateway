@@ -35,7 +35,7 @@ func clientInterceptor(
 	// Logic before invoking the invoker
 	start := time.Now()
 	meta := metadata.New(map[string]string{})
-	meta.Set(DefaultXRequestURL, c.GateWayAddr+c.Port)
+	meta.Set(DefaultXRequestURL, c.GateWayAddr+":"+c.Port)
 	newCtx := SetRequestId(ctx, meta)
 	// Calls the invoker to execute RPC
 	err = invoker(newCtx, method, req, reply, cc, opts...)

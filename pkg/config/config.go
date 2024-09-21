@@ -1,6 +1,8 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"github.com/spf13/viper"
+)
 
 type Config struct {
 	GateWayAddr    string `mapstructure:"API_GATEWAY_ADDR"`
@@ -14,7 +16,8 @@ type Config struct {
 func LoadConfig() (Config, error) {
 	var c Config
 	viper.AddConfigPath("./pkg/config/envs")
-	viper.SetConfigName("dev")
+
+	viper.SetConfigName("prod")
 	viper.SetConfigType("env")
 
 	viper.AutomaticEnv()
@@ -22,7 +25,17 @@ func LoadConfig() (Config, error) {
 	err := viper.ReadInConfig()
 
 	if err != nil {
-		return Config{}, err
+		viper.SetConfigName("dev")
+		viper.SetConfigType("env")
+		err = viper.Unmarshal(&c)
+		viper.AutomaticEnv()
+
+		err = viper.ReadInConfig()
+
+		if err != nil {
+			return Config{}, err
+		}
+		return c, nil
 	}
 
 	err = viper.Unmarshal(&c)

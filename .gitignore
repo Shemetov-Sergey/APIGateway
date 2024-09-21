@@ -1,2 +1,4 @@
 .idea
 *.log
+pkg/config/envs/prod.env
+.env
