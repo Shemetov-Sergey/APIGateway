@@ -25,7 +25,7 @@ func main() {
 	comment.RegisterRoutes(r, &c, &authSvc)
 	censor.RegisterRoutes(r, &c, &authSvc)
 
-	err = r.Run(c.Port)
+	err = r.Run(":" + c.Port)
 	if err != nil {
 		log.Fatalln(err)
 		return

@@ -16,6 +16,7 @@ type Config struct {
 func LoadConfig() (Config, error) {
 	var c Config
 	viper.AddConfigPath("./pkg/config/envs")
+	viper.AddConfigPath("/APIGateway") //Для docker
 
 	viper.SetConfigName("prod")
 	viper.SetConfigType("env")
@@ -27,7 +28,6 @@ func LoadConfig() (Config, error) {
 	if err != nil {
 		viper.SetConfigName("dev")
 		viper.SetConfigType("env")
-		err = viper.Unmarshal(&c)
 		viper.AutomaticEnv()
 
 		err = viper.ReadInConfig()
@@ -35,6 +35,8 @@ func LoadConfig() (Config, error) {
 		if err != nil {
 			return Config{}, err
 		}
+		err = viper.Unmarshal(&c)
+
 		return c, nil
 	}
 
